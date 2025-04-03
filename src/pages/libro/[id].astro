@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const books = await getCollection("books");
+
+  return books.map((book) => ({
+    params: { id: book.id },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const { data } = book;
+const { title, author, img, readtime, description, buy } = data;
+
+const { Content } = await render(book);
+---
+
+<Layout>
+  <div class="flex justify-center gap-12 mt-10">
+    <aside class="flex flex-col items-center gap-4">
+      <img src={`/img/${img}`} alt={title} class="w-72 rounded h-auto" />
+      <!-- Enlace para comprar -->
+    </aside>
+
+    <main class="max-w-xl">
+      <h1 class="text-4xl font-bold mb-4">{title}</h1>
+      <div class="">
+        <Content />
+      </div>
+    </main>
+  </div>
+</Layout>
