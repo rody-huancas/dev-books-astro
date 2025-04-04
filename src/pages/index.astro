@@ -3,6 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 
 const books = await getCollection("books");
+
+export const prerender = true
 ---
 
 <Layout>
